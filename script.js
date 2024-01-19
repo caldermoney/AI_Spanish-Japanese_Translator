@@ -21,14 +21,14 @@ const promptFunc = async (input) => {
     try {
         // Structures the output from the model, parses it, and returns it to the user.
         const parser = StructuredOutputParser.fromNamesAndDescriptions({
-            code: "Javascript code that answers the users question",
-            explanation: "Detailed explanation of the example code provided",
+            translation: "The translated text in standard english pronunciation text",
+            hiragana_katakana: "The translation written in a mix of Hiragana and Katakana characters",
         });
         // Parses the output from the model.
         const formatInstructions = parser.getFormatInstructions();
 
         const prompt = new PromptTemplate({
-            template: "You are a JavaScript expert. Respond to the user's coding questions as thorougly as possible in the form of one JSON object. The first key-value pair will be sample code you provide with a key called code and a string value, and the second will be an explanation of the code with a key called explanation and a string value. Use line breaks where appropriate. You must format your output as a JSON value that adheres to a given \"JSON Schema\" instance. Properly use escape characters parsewith a backslash in the response where appropriate to maintain a proper string. Limit the entire response to 250 characters.\n{question}",
+            template: "You are a JavaScript expert with knowledge of language translation. Respond to the user's request by providing a translation from Spanish to Japanese. The response should be formatted as a JSON object with two key-value pairs. The first key, 'translation', should contain the translated text in standard english pronunciation. The second key, 'hiragana_katakana', should contain the translation written in a mix of Hiragana and Katakana characters. Format the output to comply with a given 'JSON Schema' instance. Use escape characters appropriately to ensure valid JSON string formatting. Limit the entire response to 250 characters.\n{question}",
             inputVariables: ["question"],
             partialVariables: { format_instructions: formatInstructions }
         });
